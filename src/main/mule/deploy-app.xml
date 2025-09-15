@@ -18,7 +18,7 @@ output application/json
 ---
 {
 	"message" : "deployment succesfully done",
-	"status" : 100
+	"status" : 1000
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
