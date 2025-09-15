@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="90d3c9b2-0032-4225-92b1-499e1bb2fade" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="deploy-appFlow" doc:id="1028c22e-6644-4a5f-8195-68a955c80031" >
+		<http:listener doc:name="Listener" doc:id="83b0f60c-ba36-4d4a-a747-a19a06048f72" config-ref="HTTP_Listener_config" path="/deploy"/>
+		<logger level="INFO" doc:name="start Logger" doc:id="6daa0968-0e56-4af3-a6c7-933a945a7841" message="process begins succesfully"/>
+		<ee:transform doc:name="Transform Message" doc:id="b2cf1f30-6366-470c-b8c2-3f9abfd21866" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "deployment succesfully done",
+	"status" : 100
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end Logger" doc:id="ad76279b-47e3-40e8-98e4-60ddaee79b5b" message="process ends succesfully"/>
+	</flow>
+</mule>
